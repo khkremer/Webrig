@@ -74,8 +74,8 @@ font-style: italic;
 <?php
 include ('config.php');
 // Read rig
-$freq = exec('rigctl  -m 2 -r '.HOST.' f');
-$mod = exec('rigctl  -m 2 -r '.HOST.' m | head -n 1');
+$freq = exec(RIGCTL.'  -m 2 -r '.HOST.' f');
+$mod = exec(RIGCTL.'  -m 2 -r '.HOST.' m | head -n 1');
 
 
 ?>
@@ -108,10 +108,9 @@ $('#set').load('set.php?move='+fr);
 <br>
 
  <select id="mod" name="mod">
-  <option <?php if ($mod=="FM") { echo 'selected="selected"'; } ?> value="FM">FM</option>
   <option <?php if ($mod=="USB") { echo 'selected="selected"'; } ?> value="USB">USB</option>
   <option <?php if ($mod=="LSB") { echo 'selected="selected"'; } ?> value="LSB">LSB</option>
-  <option <?php if ($mod=="AM") { echo 'selected="selected"'; } ?> value="AM">AM</option>
+  <option <?php if ($mod=="CW") { echo 'selected="selected"'; } ?> value="CW">CW</option>
 </select> 
 
 <select id="mem" name="mem">
@@ -142,21 +141,6 @@ if (($handle = fopen("memory.csv", "r")) !== FALSE) {
 <button id="setfreq" onclick="setfreq(+12.5)">+12.5</button>
 <br>
 
-<!-- just copy this <section> and next script -->
-            <section class="experiment">
-				<section>
-
-                    
-                    <input type="text" id="user-name" placeholder="Your Callsign">
-                    <button id="setup-voice-only-call" class="setup">Audio Stream</button>
-                </section>
-				
-                <!-- list of all available broadcasting rooms -->
-                <table style="width: 100%;" id="rooms-list"></table>
-                
-                <!-- local/remote videos container -->
-                <div id="audios-container"></div>
-            </section>
 </center>
         
             <script>

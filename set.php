@@ -9,10 +9,22 @@ function test_input($data) {
 }
 
 //Set rig
-$freq = test_input($_GET["freq"]);
+$freq_raw = test_input($_GET["freq"]);
 $mod = test_input($_GET["mod"]);
 $mem = test_input($_GET["mem"]);
 $move = test_input($_GET["move"]);
+
+$lastChar = strtoupper(substr($freq_raw, -1));
+if ($lastChar == "K") {
+    $freq = (double) (substr($freq_raw, 0, -1)) * 1000;
+}
+else if ($lastChar == "M") {
+    $freq = (double) (substr($freq_raw, 0, -1)) * 1000000;
+}
+else {
+    $freq = $freq_raw;
+}
+
 
 if ($mem) {
 
@@ -22,16 +34,16 @@ if (($handle = fopen("memory.csv", "r")) !== FALSE) {
 
 	if ($mem==$data[0]) {
 	//Freq
-	$run = exec('rigctl  -m 2 -r '.HOST.' F '.$data[2]*1000000);
+	$run = exec(RIGCTL.'  -m 2 -r '.HOST.' F '.$data[2]*1000000);
 	//Modulation
 	If ($data[10]=="NFM") {$data[10]="FM";}
-	$run = exec('rigctl  -m 2 -r '.HOST.' M '.$data[10].' 0');
+	$run = exec(RIGCTL.'  -m 2 -r '.HOST.' M '.$data[10].' 0');
 	//Shift
-	$run = exec('rigctl  -m 2 -r '.HOST.' O '.$data[4]*1000000);
+	$run = exec(RIGCTL.'  -m 2 -r '.HOST.' O '.$data[4]*1000000);
 	//-+Shift
-	if ($data[3]) {$run = exec('rigctl  -m 2 -r '.HOST.' R '.$data[3]);}
+	if ($data[3]) {$run = exec(RIGCTL.'  -m 2 -r '.HOST.' R '.$data[3]);}
 	//Tone
-	if ($data[5]=="Tone") {$run = exec('rigctl  -m 2 -r '.HOST.' C '.$data[6]);}
+	if ($data[5]=="Tone") {$run = exec(RIGCTL.'  -m 2 -r '.HOST.' C '.$data[6]);}
 	}
 	$row++;
     }
@@ -40,17 +52,17 @@ if (($handle = fopen("memory.csv", "r")) !== FALSE) {
 
 } else {
 if ($freq) {
-$run = exec('rigctl  -m 2 -r '.HOST.' F '.$freq);
+$run = exec(RIGCTL.'  -m 2 -r '.HOST.' F '.$freq);
 }
 
 if ($mod) {
-$run = exec('rigctl  -m 2 -r '.HOST.' M '.$mod." 0");
+$run = exec(RIGCTL.'  -m 2 -r '.HOST.' M '.$mod." 0");
 }
 
 if (!empty($move)) {
-$freq = (exec('rigctl  -m 2 -r '.HOST.' f'));
+$freq = (exec(RIGCTL.'  -m 2 -r '.HOST.' f'));
 $freq=$freq+($move*1000);
-$run = exec('rigctl  -m 2 -r '.HOST.' F '.$freq);
+$run = exec(RIGCTL.'  -m 2 -r '.HOST.' F '.$freq);
 }
 
 
