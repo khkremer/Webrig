@@ -23,3 +23,8 @@ Connection
 Rig - Cat cable - PC (rigctld - apache) - Router - Internet
 
 GPL Licence
+
+
+Modification by K5KHK:
+This code is based on https://github.com/ntoulasd/Webrig.git - I've applied some changes to change it work with my Hermes Lite 2 setup. I am using Webrig with a SparkSDR installation, which listens to rigctl port 51111. 
+de K5KHK
